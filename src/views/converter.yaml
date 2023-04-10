@@ -34,7 +34,23 @@ paths:
                 codec:
                   name: codec
                   type: string
-
+          'example':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                audio:
+                  summary: "Example audio convert"
+                  value:
+                    audio: binary-audio-data
+                    typeTo: mp3
+                    bitRate: 128
+                    duration: 60
+                    codec: mp3                
       responses:
         '200':
           description: 'A JSON array of successful converter and related info on the query'
@@ -57,15 +73,6 @@ paths:
           description: Invalid input
         '500':
           description: Internal server error
-      examples:
-        example1:
-          summary: Example of a request to convert an audio file
-          value:
-            audio: binary-audio-data
-            typeTo: mp3
-            bitRate: 128
-            duration: 60
-            codec: mp3
 
   /convert_video/converter:
     post:
@@ -99,9 +106,43 @@ paths:
                 bitRate:
                   name: bitRate
                   type: string
+          'example':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                    video:
+                      summary: "Example video convert"
+                      value:
+                        video: binary-video-data
+                        typeTo: mp4
+                        width: 420
+                        height: 240
+                        ratio: 4:3
+                        codec: mp4
+                        bitRate: 128
       responses:
         '200':
           description: File uploaded successfully
+          content:
+            'application/json':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                typical_user:
+                  summary: "first result"
+                  value:
+                    result_string: 'Conversion Completed'
+                    download_URL: 'http://localhost:9090/api/v1.0/convert_video/download?File'
         '400':
           description: Invalid input
         '500':
@@ -136,9 +177,105 @@ paths:
                 colors:
                   name: colors
                   type: string
+          'example':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                    image:
+                      summary: "Example image convert"
+                      value:
+                        Image: binary-image-data
+                        typeTo: jpg
+                        width: 100
+                        height: 100
+                        rotate: 180
+                        colors: grey scale
       responses:
         '200':
           description: File uploaded successfully
+          content:
+            'application/json':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                typical_user:
+                  summary: "first result"
+                  value:
+                    result_string: 'Conversion Completed'
+                    download_URL: 'http://localhost:9090/api/v1.0/convert_image/download?File'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+  
+  /convert_pdf/converter:
+    post:
+      summary: Upload a pdf and return images
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                pdf:
+                  name: pdf
+                  type: string
+                  format: binary
+                typeTo:
+                  name: ext
+                  type: string
+                density:
+                  name: density
+                  type: string
+                quality:
+                  name: quality
+                  type: string
+
+          'example':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                    image:
+                      summary: "Example pdf convert"
+                      value:
+                        pdf: binary-pdf-data
+                        typeTo: jpg
+                        density: 150
+                        quality: 90
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            'application/json':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                typical_user:
+                  summary: "first result"
+                  value:
+                    result_string: 'Conversion Completed'
+                    download_URL: 'http://localhost:9090/api/v1.0/convert_pdf/download?File'
         '400':
           description: Invalid input
         '500':

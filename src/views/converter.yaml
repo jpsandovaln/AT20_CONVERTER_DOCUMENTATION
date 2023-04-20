@@ -143,3 +143,65 @@ paths:
           description: Invalid input
         '500':
           description: Internal server error
+  /convert_pdf/converter:
+    post:
+      summary: Upload a pdf and return images
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                pdf:
+                  name: pdf
+                  type: string
+                  format: binary
+                typeTo:
+                  name: ext
+                  type: string
+                density:
+                  name: density
+                  type: string
+                quality:
+                  name: quality
+                  type: string
+
+          'example':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                    image:
+                      summary: "Example pdf convert"
+                      value:
+                        pdf: binary-pdf-data
+                        typeTo: jpg
+                        density: 150
+                        quality: 90
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            'application/json':
+              schema:
+                type: object
+                description: All the parameters returned from the search engine
+                properties:
+                  result_string:
+                    type: string
+                    description: The search result
+              examples:
+                typical_user:
+                  summary: "first result"
+                  value:
+                    result_string: 'Conversion Completed'
+                    download_URL: 'http://localhost:9090/api/v1.0/convert_pdf/download?File'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
